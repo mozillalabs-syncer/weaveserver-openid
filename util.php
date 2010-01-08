@@ -1,4 +1,29 @@
 <?php
+# ***** BEGIN LICENSE BLOCK *****
+# Version: GPL 2.0
+#
+# The contents of this file are subject to the terms of the GNU General Public 
+# License Version 2 (the "GPL") you may not use this file except in compliance 
+# with the License. You may obtain a copy of the License at
+# http://www.gnu.org/licenses/gpl.html
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+# The Original Code is phpMyId (http://siege.org/projects/phpMyID/).
+#
+# The Initial Developer of the Original Code is:
+#   CJ Niemira (siege@siege.org)
+#
+# Portions created by the Initial Developer are Copyright (C) 2008
+# the Initial Developer. All Rights Reserved.
+#
+# Contributor(s):
+#   Anant Narayanan (anant@mozilla.com)
+#
+# ***** END LICENSE BLOCK *****
 
 require_once('math.php');
 
@@ -213,13 +238,13 @@ function url_descends($child, $parent) {
 		if (array_intersect($keys[$name], $bad) != array())
 			return false;
 
-		if (! preg_match('/^https?$/i', strtolower($parts[$name]['scheme'])))
+		if (!preg_match('/^https?$/i', strtolower($parts[$name]['scheme'])))
 			return false;
 
-		if (! array_key_exists('port', $parts[$name]))
+		if (!array_key_exists('port', $parts[$name]))
 			$parts[$name]['port'] = (strtolower($parts[$name]['scheme']) == 'https') ? 443 : 80;
 
-		if (! array_key_exists('path', $parts[$name]))
+		if (!array_key_exists('path', $parts[$name]))
 			$parts[$name]['path'] = '/';
 	}
 

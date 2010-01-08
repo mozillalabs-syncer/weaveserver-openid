@@ -1,9 +1,34 @@
 <?php
 
+# ***** BEGIN LICENSE BLOCK *****
+# Version: GPL 2.0
+#
+# The contents of this file are subject to the terms of the GNU General Public 
+# License Version 2 (the "GPL") you may not use this file except in compliance 
+# with the License. You may obtain a copy of the License at
+# http://www.gnu.org/licenses/gpl.html
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+# The Original Code is phpMyId (http://siege.org/projects/phpMyID/).
+#
+# The Initial Developer of the Original Code is:
+#   CJ Niemira (siege@siege.org)
+#
+# Portions created by the Initial Developer are Copyright (C) 2008
+# the Initial Developer. All Rights Reserved.
+#
+# Contributor(s):
+#   Anant Narayanan (anant@mozilla.com)
+#
+# ***** END LICENSE BLOCK *****
+
 /* List the known types and modes */
 $GLOBALS['known'] = array(
 	'assoc_types'	=> array('HMAC-SHA1'),
-
 	'openid_modes'	=> array('accept',
 				 'associate',
 				 'authorize_site',
@@ -11,11 +36,8 @@ $GLOBALS['known'] = array(
 				 'checkid_setup',
 				 'check_authentication',
 				 'error',
-				 ),
-
-	'session_types'	=> array('',
-				 'DH-SHA1'),
-
+	),
+	'session_types'	=> array('', 'DH-SHA1'),
 	'bigmath_types' => array('DH-SHA1'),
 );
 
