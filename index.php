@@ -251,7 +251,7 @@ function authorize_site_mode()
 	if ($trust_root != $return_to) {
 		// the urls are not the same, be sure return decends from trust
 		if (!url_descends($return_to, $trust_root))
-			error_500('Invalid trust_root: "' . $trust_root . '"');
+			error_500('Invalid trust_root');
 	}
 
 	// check the assoc handle
@@ -272,10 +272,9 @@ function authorize_site_mode()
 	
 	if (check_weave_login($identity, $_REQUEST['weave_pwd'])) {
 		$keys['mode'] = 'id_res';
-		$keys['mode'] = 'id_res';
-	        $keys['identity'] =  OPENID_SERVER_NAME . $identity;
-        	$keys['assoc_handle'] = $assoc_handle;
-        	$keys['return_to'] = $return_to;
+		$keys['identity'] =  OPENID_SERVER_NAME . $identity;
+		$keys['assoc_handle'] = $assoc_handle;
+		$keys['return_to'] = $return_to;
 	} else {
 		debug("Cannot validate weave id: $identity");
 		error(401, $cancel_url);

@@ -169,9 +169,12 @@ function str_diff_at($a, $b) {
 
 /* Debug logging */
 function debug($x, $m = null) {
-	$logfile = '/var/log/openid_log';
-	if (!is_writable(dirname($logfile)) &! is_writable($logfile))
-		error(500, 'Cannot write to debug log: ' . $logfile);
+	if (!defined('WEAVE_OPENID_DEBUG') || !WEAVE_OPENID_DEBUG)
+		return;
+			
+	if (!is_writable(dirname(OPENID_DEBUG_LOG)) &!
+		is_writable(OPENID_DEBUG_LOG))
+		error(500, 'Cannot write to debug log: ' . OPENID_DEBUG_LOG);
 
 	if (is_array($x)) {
 		ob_start();
@@ -182,7 +185,7 @@ function debug($x, $m = null) {
 		$x .= "\n";
 	}
 
-	error_log($x . "\n", 3, $logfile);
+	error_log($x . "\n", 3, OPENID_DEBUG_LOG);
 }
 
 /* Determine if a child URL actually decends from the parent, and that the
