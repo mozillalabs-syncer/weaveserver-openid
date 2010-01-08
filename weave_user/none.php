@@ -39,7 +39,7 @@
 # ***** END LICENSE BLOCK *****
 	
 require_once 'weave_user/base.php';
-require_once 'weave_constants.php';
+require_once 'openid_constants.php';
 
 function get_auth_object()
 {

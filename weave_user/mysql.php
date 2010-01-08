@@ -39,7 +39,7 @@
 # ***** END LICENSE BLOCK *****
 	
 require_once 'weave_user/base.php';
-require_once 'weave_constants.php';
+require_once 'openid_constants.php';
 
 #Mysql version of the authentication object.
 #Note that this object does not contain any database setup information. It assumes that the mysql
