@@ -174,7 +174,7 @@ function debug($x, $m = null) {
 			
 	if (!is_writable(dirname(OPENID_DEBUG_LOG)) &!
 		is_writable(OPENID_DEBUG_LOG))
-		error(500, 'Cannot write to debug log: ' . OPENID_DEBUG_LOG);
+		error(500, 'Cannot write to debug log');
 
 	if (is_array($x)) {
 		ob_start();
