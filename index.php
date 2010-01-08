@@ -452,7 +452,7 @@ function secret($handle)
 
 // Set the internal encoding
 if (function_exists('mb_internal_encoding'))
-	mb_internal_encoding('iso-8859-1');
+	mb_internal_encoding('utf-8');
 
 // Avoid problems with non-default arg_separator.output settings
 // Credit for this goes to user 'prelog' on the forums
