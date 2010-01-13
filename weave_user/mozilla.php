@@ -39,7 +39,7 @@
 # ***** END LICENSE BLOCK *****
 	
 require_once 'weave_user/base.php';
-require_once 'openid_constants.php';
+require_once 'weave_constants.php';
 
 # Mozilla version of Authentication
 class WeaveAuthentication implements WeaveAuthenticationBase
@@ -47,13 +47,7 @@ class WeaveAuthentication implements WeaveAuthenticationBase
 	var $_conn;
 	var $_username = null;
 	var $_alert;
-	
-	private function authorize() {
-		if (!ldap_bind($this->_conn, WEAVE_LDAP_AUTH_USER.",".
-			WEAVE_LDAP_AUTH_DN, WEAVE_LDAP_AUTH_PASS))
-			throw new Exception("Database Unavailable", 503);
-	}
-	
+		
  	private function constructUserDN() {
 		/* This is specific to our Weave cluster */
 		if (WEAVE_LDAP_AUTH_DN == "dc=mozilla") {
@@ -72,21 +66,12 @@ class WeaveAuthentication implements WeaveAuthenticationBase
 		return WEAVE_LDAP_AUTH_USER_PARAM_NAME . "=" . $this->_username . "," . WEAVE_LDAP_AUTH_DN;
 	}
 	
-	private function getUserAttributes($attr)
-	{
-		$this->authorize();
-		$dn = $this->constructUserDN($this->_username);
-		$re = ldap_read($this->_conn, $dn, "objectClass=*", $attr);
-		return ldap_get_attributes($this->_conn,
-			ldap_first_entry($this->_conn, $re));
-	}
-	
 	function __construct($username)
 	{
 		$this->open_connection();
 		$this->_username = $username;
 	}
-
+	
 	function open_connection()
 	{
 		$this->_conn = ldap_connect(WEAVE_LDAP_AUTH_HOST);
@@ -107,9 +92,15 @@ class WeaveAuthentication implements WeaveAuthenticationBase
 	{
 		$dn = $this->constructUserDN($this->_username);
 		
+		if (!ldap_bind($this->_conn, $dn, $password))
+			return 0;
+
+		$re = ldap_read($this->_conn, $dn, "objectClass=*", array("primaryNode", "uidNumber"));
+
 		// Check if assigned node is same as current host
 		$nd = "";
-		$attrs = $this->getUserAttributes(array("primaryNode", "uidNumber"));
+		$attrs = ldap_get_attributes($this->_conn, ldap_first_entry($this->_conn, $re));
+		
 		for ($i = 0; $i < $attrs["primaryNode"]["count"]; $i++)
 		{
 			$node = $attrs["primaryNode"][$i];
@@ -122,10 +113,7 @@ class WeaveAuthentication implements WeaveAuthenticationBase
 		if (trim($nd) != $_SERVER['HTTP_HOST'])
 			return 0;
 		
-		if (ldap_bind($this->_conn, $dn, $password))
-			return $attrs['uidNumber'][0];
-			
-		return 0;
+		return $attrs['uidNumber'][0];
 	}
 
 
