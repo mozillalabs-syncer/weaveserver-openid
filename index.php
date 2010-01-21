@@ -181,7 +181,12 @@ function check_authentication_mode()
 						? $_REQUEST['openid_realm']
 						: error_post('Missing return_to/realm');
 	}
-						
+	
+	// Sanitize variables that we are going to output
+	$assoc_handle = htmlspecialchars($assoc_handle);
+	$identity = urlencode($identity);
+	$site = urlencode($site);
+	
 	// Prepare the return keys
 	$keys = array(
 		'openid.mode' => 'id_res'
@@ -262,6 +267,11 @@ function authorize_site_mode()
 			? $_REQUEST['openid_sreg_optional']
 			: '';
 
+	// Sanitize variables that we are going to output
+	$assoc_handle = htmlspecialchars($assoc_handle);
+	$identity = urlencode($identity);
+	$return_to = urlencode($return_to);
+	
 	// determine the cancel url
 	$q = strpos($return_to, '?') ? '&' : '?';
 	$cancel_url = $return_to . $q . 'openid.mode=cancel';
