@@ -383,22 +383,20 @@ function user_page($user)
 /* Check the validity of a weave login */
 function check_weave_login($user, $password)
 {
-	if (defined('WEAVE_AUTH_URL'))
-		$cluster = file_get_contents(WEAVE_AUTH_URL . $user . '/node/weave/');
-	else
-		$cluster = WEAVE_STORAGE_URL;
-	$req = $cluster . '1.0/' . $user . '/storage/keys/pubkey';
+	require_once 'weave_user/' . WEAVE_AUTH_ENGINE . '.php';
+	if (!$user || !$password || !preg_match('/^[A-Z0-9._-]+$/i', $user)) 
+		return false;
 
-	$ses = curl_init($req);
-	curl_setopt($ses, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ses, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ses, CURLOPT_USERPWD, $user . ":" . $password);
-	$ret = curl_exec($ses);
-	$hed = curl_getinfo($ses);
-	curl_close($ses);
-
-	return $hed['http_code'] == 200 ? true : false;
+	try {
+		$authdb = new WeaveAuthentication(strtolower($user));
+		return $authdb->authenticate_user(fix_utf8_encoding($auth_pw)) ?
+			true : false;
+	} catch(Exception $e) {
+		debug("Error in check_weave_login: " . $e->getMessage());
+		return false;
+	}
 }
+
 
 /* Create a new consumer association */
 function new_assoc($expiration)
