@@ -182,11 +182,6 @@ function check_authentication_mode()
 						: error_post('Missing return_to/realm');
 	}
 	
-	// Sanitize variables that we are going to output
-	$assoc_handle = htmlspecialchars($assoc_handle);
-	$identity = urlencode($identity);
-	$site = urlencode($site);
-	
 	// Prepare the return keys
 	$keys = array(
 		'openid.mode' => 'id_res'
@@ -266,11 +261,6 @@ function authorize_site_mode()
 	$sreg_optional = @strlen($_REQUEST['openid_sreg_optional'])
 			? $_REQUEST['openid_sreg_optional']
 			: '';
-
-	// Sanitize variables that we are going to output
-	$assoc_handle = htmlspecialchars($assoc_handle);
-	$identity = urlencode($identity);
-	$return_to = urlencode($return_to);
 	
 	// determine the cancel url
 	$q = strpos($return_to, '?') ? '&' : '?';
@@ -304,8 +294,8 @@ function authorize_site_mode()
 	
 	if (check_weave_login($identity, $_REQUEST['weave_pwd'])) {
 		$keys['mode'] = 'id_res';
-		$keys['identity'] =  OPENID_SERVER_NAME . $identity;
-		$keys['assoc_handle'] = $assoc_handle;
+		$keys['identity'] =  OPENID_SERVER_NAME . htmlspecialchars($identity);
+		$keys['assoc_handle'] = htmlspecialchars($assoc_handle);
 		$keys['return_to'] = $return_to;
 	} else {
 		debug("Cannot validate weave id: $identity");
