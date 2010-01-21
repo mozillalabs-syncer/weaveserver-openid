@@ -39,7 +39,6 @@
 # ***** END LICENSE BLOCK *****
 	
 require_once 'weave_user/base.php';
-require_once 'weave_constants.php';
 
 # Mozilla version of Authentication
 class WeaveAuthentication implements WeaveAuthenticationBase
