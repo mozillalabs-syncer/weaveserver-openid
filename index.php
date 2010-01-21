@@ -384,12 +384,14 @@ function user_page($user)
 function check_weave_login($user, $password)
 {
 	require_once 'weave_user/' . WEAVE_AUTH_ENGINE . '.php';
-	if (!$user || !$password || !preg_match('/^[A-Z0-9._-]+$/i', $user)) 
+	if (!$user || !$password || !preg_match('/^[A-Z0-9._-]+$/i', $user)) {
+		debug("check_weave_login received invalid username or password");
 		return false;
+	}
 
 	try {
 		$authdb = new WeaveAuthentication(strtolower($user));
-		return $authdb->authenticate_user(fix_utf8_encoding($auth_pw)) ?
+		return $authdb->authenticate_user($password) ?
 			true : false;
 	} catch(Exception $e) {
 		debug("Error in check_weave_login: " . $e->getMessage());
