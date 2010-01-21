@@ -1,0 +1,35 @@
+<?php
+
+if (WEAVE_AUTH_ENGINE == 'mysql') {
+	#host, db name, username and password for the mysql auth store
+	if (!defined('WEAVE_MYSQL_AUTH_HOST')) {
+		define('WEAVE_MYSQL_AUTH_HOST', 'localhost');
+	}
+	if (!defined('WEAVE_MYSQL_AUTH_DB')) {
+		define('WEAVE_MYSQL_AUTH_DB', 'weave');
+	}
+	if (!defined('WEAVE_MYSQL_AUTH_USER')) {
+		define('WEAVE_MYSQL_AUTH_USER', 'weave');
+	}
+	if (!defined('WEAVE_MYSQL_AUTH_PASS')) {
+		define('WEAVE_MYSQL_AUTH_PASS', 'weave');
+	}
+} elseif (WEAVE_AUTH_ENGINE == 'mozilla') {
+	if (!defined('WEAVE_LDAP_AUTH_HOST')) {
+		define('WEAVE_LDAP_AUTH_HOST', 'localhost');
+	}
+	if (!defined('WEAVE_LDAP_AUTH_USER')) {
+		define('WEAVE_LDAP_AUTH_USER', 'uid=binduser,ou=logins');
+	}
+	if (!defined('WEAVE_LDAP_AUTH_PASS')) {
+		define('WEAVE_LDAP_AUTH_PASS', 'password');
+	}
+	if (!defined('WEAVE_LDAP_AUTH_DN')) {
+		define('WEAVE_LDAP_AUTH_DN', 'dc=');
+	}
+	if (!defined('WEAVE_LDAP_AUTH_USER_PARAM_NAME')) {
+		define('WEAVE_LDAP_AUTH_USER_PARAM_NAME', 'uid');
+	}
+}
+
+?>

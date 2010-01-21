@@ -52,7 +52,7 @@ if (!defined('OPENID_MYSQL_PASS')) {
 }
 
 #log or not?
-if (!defined(WEAVE_OPENID_DEBUG)) {
+if (!defined('WEAVE_OPENID_DEBUG')) {
 	define('WEAVE_OPENID_DEBUG', true);
 }
 
@@ -66,11 +66,6 @@ if (!defined('OPENID_SERVER_NAME')) {
 	define('OPENID_SERVER_NAME', 'https://openid.example.org/');
 }
 
-#location of the authorization cluster
-if (!defined('WEAVE_AUTH_URL')) {
-	define('WEAVE_AUTH_URL', 'https://auth.example.org/');
-}
-
 #if not using a central cluster, location of the pubkey server
 #if (!defined('WEAVE_STORAGE_URL')) {
 #	define('WEAVE_STORAGE_URL', 'https://store.example.org/');
@@ -78,41 +73,10 @@ if (!defined('WEAVE_AUTH_URL')) {
 
 #engine for auth
 #Acceptable values: mysql | sqlite | mozilla | none
-#This should match the values defined for your weave Registration module
+#Once you set this, you should set the aactual auth constants in 
+#weave_user/weave_constants.php
 if (!defined('WEAVE_AUTH_ENGINE')) {
 	define('WEAVE_AUTH_ENGINE', 'mysql');
-}
-
-if (WEAVE_AUTH_ENGINE == 'mysql') {
-	#host, db name, username and password for the mysql auth store
-	if (!defined('WEAVE_MYSQL_AUTH_HOST')) {
-		define('WEAVE_MYSQL_AUTH_HOST', 'localhost');
-	}
-	if (!defined('WEAVE_MYSQL_AUTH_DB')) {
-		define('WEAVE_MYSQL_AUTH_DB', 'weave');
-	}
-	if (!defined('WEAVE_MYSQL_AUTH_USER')) {
-		define('WEAVE_MYSQL_AUTH_USER', 'weave');
-	}
-	if (!defined('WEAVE_MYSQL_AUTH_PASS')) {
-		define('WEAVE_MYSQL_AUTH_PASS', 'weave');
-	}
-} elseif (WEAVE_AUTH_ENGINE == 'mozilla') {
-	if (!defined('WEAVE_LDAP_AUTH_HOST')) {
-		define('WEAVE_LDAP_AUTH_HOST', 'localhost');
-	}
-	if (!defined('WEAVE_LDAP_AUTH_USER')) {
-		define('WEAVE_LDAP_AUTH_USER', 'uid=binduser,ou=logins');
-	}
-	if (!defined('WEAVE_LDAP_AUTH_PASS')) {
-		define('WEAVE_LDAP_AUTH_PASS', 'password');
-	}
-	if (!defined('WEAVE_LDAP_AUTH_DN')) {
-		define('WEAVE_LDAP_AUTH_DN', 'dc=');
-	}
-	if (!defined('WEAVE_LDAP_AUTH_USER_PARAM_NAME')) {
-		define('WEAVE_LDAP_AUTH_USER_PARAM_NAME', 'uid');
-	}
 }
 
 ?>
