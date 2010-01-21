@@ -380,7 +380,25 @@ function user_page($user)
  * Association, key support and authorization functions *
 *****************************************************************************/
 
-/* Check the validity of a weave login */
+function check_weave_login($user, $password)
+{
+	$cluster = file_get_contents(
+		"https://auth.services.mozilla.com/user/1.0/$user/node/weave/"
+	);
+  
+	$req = $cluster . '1.0/' . $user . '/storage/keys/pubkey';
+	$ses = curl_init($req);
+	curl_setopt($ses, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ses, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ses, CURLOPT_USERPWD, $user . ":" . $password);
+	$ret = curl_exec($ses);
+	$hed = curl_getinfo($ses);
+	curl_close($ses);
+	
+	return $hed['http_code'] == 200 ? true : false;
+}
+
+/* Check the validity of a weave login
 function check_weave_login($user, $password)
 {
 	require_once 'weave_user/' . WEAVE_AUTH_ENGINE . '.php';
@@ -398,7 +416,7 @@ function check_weave_login($user, $password)
 		return false;
 	}
 }
-
+*/
 
 /* Create a new consumer association */
 function new_assoc($expiration)
